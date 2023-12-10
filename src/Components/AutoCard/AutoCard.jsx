@@ -1,5 +1,9 @@
+import { useState } from "react";
 import heart from "../../images/heart.svg";
 import noImage from '../../images/no-image.png'
+import { useDispatch, useSelector } from "react-redux";
+import { getFavorites } from "../../Redux/selector";
+import { addFavorite, removeFavorite } from "../../Redux/carsSlice";
 
 export const AutoCard = ({
   carName,
@@ -11,7 +15,27 @@ export const AutoCard = ({
   model,
   id,
   year,
+  handleOpenModal,
 }) => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const dispatch = useDispatch();
+  const favorites = useSelector(getFavorites);
+
+  const openModal = () => {
+    console.dir(id);
+    handleOpenModal(id);
+  };
+
+  const handleClickFav = () => {
+    console.log("add fav");
+    favorites.includes(id)?dispatch(removeFavorite(id)): dispatch(addFavorite(id));
+  };
+
+  // const isFavorite = () => {
+  //   const fav =JSON.parse(localStorage.getItem("favorite") ) || null;
+  //   fav.includes(id) ? true : false;
+  // }
+
   return (
     <div className="w-[274px] h-[426px] p-[15px]  bg-white	rounded-[14px] ">
       <div className="relative m-[-15px]">
@@ -27,6 +51,7 @@ export const AutoCard = ({
           src={heart}
           alt="favorite"
           className="absolute top-[14px] right-[14px] cursor-pointer"
+          onClick={handleClickFav}
         />
       </div>
 
@@ -40,7 +65,10 @@ export const AutoCard = ({
         {address} &#124; {company} &#124; {type} &#124; {model} &#124; {id}{" "}
         accessorise
       </div>
-      <button className="w-[112.5%] mt-[28px] mx-[-15px] bg-lightblue hover:bg-blue text-white rounded-xl h-11">
+      <button
+        onClick={openModal}
+        className="w-[112.5%] mt-[28px] mx-[-15px] bg-lightblue hover:bg-blue text-white rounded-xl h-11"
+      >
         Learn more
       </button>
     </div>

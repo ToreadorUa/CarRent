@@ -10,13 +10,13 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { carReducer } from './slice';
+import { carReducer } from './carsSlice';
 
 // auth persist config
 const PersistConfig = {
   key: 'store',
   storage: storage,
-  whitelist: ['id'],
+  whitelist: ['favorites'],
 };
 
 const rootReduser = {
