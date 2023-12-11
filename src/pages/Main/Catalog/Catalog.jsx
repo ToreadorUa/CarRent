@@ -80,7 +80,7 @@ export const Catalog = () => {
               </li>
             ))}
         </ul>
-        {page < totalPages ||!filterBrand && (
+        {(page < totalPages)&&!filterBrand && (
           <button
             onClick={handleLoadMore}
             className="mx-auto mt-[100px] text-lightblue underline manrope block hover:text-blue"

@@ -8,13 +8,13 @@ import { BrowserRouter } from "react-router-dom";
 import { persistor, store } from "./Redux/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <BrowserRouter basename="/">
+        <BrowserRouter basename="/CarRent/">
           <App />
         </BrowserRouter>
       </PersistGate>
     </Provider>
- </React.StrictMode>
+//  </React.StrictMode>
 );
