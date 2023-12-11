@@ -19,13 +19,15 @@ export default {
       },
     },
     fontFamily: {
-      manrope: ["Manrope", "sans-serif"],
+      montserrat: ["Montserrat", "sans-serif"],
     },
     colors: {
       blue: "#0B44CD",
       lightblue: "#3470FF",
       white: "#FFF",
       lightgray: "#12141780",
+      lightblack: "#363535;",
+      stone: "#F9F9F9",
     },
     extend: {
       backgroundImage: {

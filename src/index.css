@@ -4,6 +4,13 @@
 
 /* @layer components {
   } */
+    body {
+      font-family: "Manrope", sans-serif
+    }
+
+    button{
+      font-family: "Manrope", sans-serif
+    }
 
 .visually-hidden {
   position: absolute;

@@ -15,3 +15,15 @@ export const getCars = createAsyncThunk("getCars", async ({page,limit}, thunkAPI
     return thunkAPI.rejectWithValue(error.message);
   }
 });
+
+export const getAllCars = createAsyncThunk(
+  "getAllCars",
+  async (_, thunkAPI) => {
+    try {
+      const resp = await axios("adverts/");
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
