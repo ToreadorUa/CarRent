@@ -29,8 +29,8 @@ export const Favorites = () => {
     };
 
     return (
-      favorites && (
-        <Container className="pb-[150px]">
+      <Container className="pb-[150px]">
+        {favorites.length>0? (
           <ul className="flex flex-wrap gap-[29px] ">
             {cars
               .filter((car) => favorites.includes(car.id))
@@ -51,10 +51,11 @@ export const Favorites = () => {
                   />
                 </li>
               ))}
-          </ul>
-          <Modal isOpen={isOpenModal} id={reqCar} onClose={handleCloseModal} />
-        </Container>
-      )
+          </ul>):(<div>You don`t have favorites cars</div>) }
+         
+
+        <Modal isOpen={isOpenModal} id={reqCar} onClose={handleCloseModal} />
+      </Container>
     );
         
     

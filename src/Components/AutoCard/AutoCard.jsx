@@ -10,12 +10,14 @@ export const AutoCard = ({
   carName,
   imgUrl,
   price,
-  address,
+  city,
+  country,
   company,
   type,
   model,
   id,
   year,
+  accessorise,
   handleOpenModal,
 }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -63,8 +65,8 @@ export const AutoCard = ({
         <p className="font-medium">{price}</p>
       </div>
       <div className="text-lightgray mt-[8px] text-xs font-normal manrope leading-[18px] flex">
-        {address} &#124; {company} &#124; {type} &#124; {model} &#124; {id}{" "}
-        accessorise
+        {country} &#124; {city} &#124; {company} &#124; {type} &#124; {model}{" "}
+        &#124; {id} &#124; {accessorise}
       </div>
       <button
         onClick={openModal}

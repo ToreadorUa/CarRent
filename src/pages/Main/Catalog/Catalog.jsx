@@ -51,16 +51,16 @@ export const Catalog = () => {
   const handleLoadMore = () => {
       setPage((prev) => prev + 1);
       
-  };
+    };
+    
+    const slicerAddress = (address, number) => address.split(", ")[number];
 
-  console.log(cars);
-  console.log(filterBrand);
   return (
     cars && (
       <Container className="pb-[150px]">
         <Filter setBrand={setBrand} />
         <ul className="flex flex-wrap gap-[29px] ">
-          {(filterBrand?cars:pagedCars)
+          {(filterBrand ? cars : pagedCars)
             .filter((car) => (filterBrand ? car.make === filterBrand : true))
             .map((car) => (
               <li key={car.id}>
@@ -69,18 +69,20 @@ export const Catalog = () => {
                   carName={car.make}
                   imgUrl={car.img}
                   price={car.rentalPrice}
-                  address={car.address}
+                  country={slicerAddress(car.address, 2)}
+                  city={slicerAddress(car.address, 1)}
                   company={car.rentalCompany}
                   type={car.type}
                   model={car.model}
                   id={car.id}
                   year={car.year}
                   handleOpenModal={handleOpenModal}
+                  accessorise={car.accessories[0]}
                 />
               </li>
             ))}
         </ul>
-        {(page < totalPages)&&!filterBrand && (
+        {page < totalPages && !filterBrand && (
           <button
             onClick={handleLoadMore}
             className="mx-auto mt-[100px] text-lightblue underline manrope block hover:text-blue"
@@ -89,8 +91,8 @@ export const Catalog = () => {
           </button>
         )}
 
-              <Modal isOpen={isOpenModal} id={reqCar} onClose={handleCloseModal} />
-              {isLoading&&<Loader/>}
+        <Modal isOpen={isOpenModal} id={reqCar} onClose={handleCloseModal} />
+        {isLoading && <Loader />}
       </Container>
     )
   );

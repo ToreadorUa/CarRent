@@ -3,7 +3,7 @@ import { getCar } from "../../assets/getQuery";
 import close from '../../images/close.svg'
 import { RentalCondItem } from "../RentalCondItem/RentalCondItem";
 
-export const Modal = ({id, isOpen='true', onClose}) => {
+export const Modal = ({id, isOpen, onClose}) => {
   const modalRef = useRef();
   const [car, setCar] = useState(null);
   
@@ -13,27 +13,46 @@ export const Modal = ({id, isOpen='true', onClose}) => {
       const data = await getCar(id_);
       setCar(data);
       };
-    if(id) fetchCar(id);
+    if (id) fetchCar(id);
+    
   }, [id]);
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      onClose();
+    }
+  };
+
+  const handleEscPress = (event) => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener("keydown", handleEscPress);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleEscPress);
+    };
+  }, [isOpen]);
 
   const slicerAddress = (address, number) => address.split(", ")[number]
   
   const rentalCondArr = (text) => text.split('\n')
-  
-  // const commaMile = (value) => {
-  //   const a = value.split()
-  //   console.log(a);
-  // }
-  
 
-  console.log(car);
   return (
     <>
       {isOpen && car && (
-        <div className="fixed overflow-scroll justify-center flex top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50">
+        <div
+          onClick={handleClickOutside}
+          className="fixed overflow-scroll justify-center flex top-0 left-0 w-full h-full bg-[#000000] bg-opacity-50"
+        >
           <div
             ref={modalRef}
-            className="w-[541px] h-[752px] p-[40px] bg-white rounded-[24px] relative mt-[10vh]"
+            className="w-[541px] h-fit p-[40px] bg-white rounded-[24px] relative mt-[10vh]"
           >
             <div
               className="absolute top-[16px] right-[16px] cursor-pointer"
@@ -92,7 +111,7 @@ export const Modal = ({id, isOpen='true', onClose}) => {
               <p className="text-xs font-normal font-montserat leading-[18px] text-lightblack px-3.5 py-[7px] rounded-[35px] bg-stone">
                 Mileage:{" "}
                 <span className="text-lightblue text-xs font-semibold font-montserat leading-[18px]">
-                  {car.mileage}
+                  {car.mileage.toLocaleString("en-US")}
                 </span>
               </p>
               <p className="text-xs font-normal font-montserat leading-[18px] text-lightblack px-3.5 py-[7px] rounded-[35px] bg-stone">
@@ -103,9 +122,12 @@ export const Modal = ({id, isOpen='true', onClose}) => {
               </p>
             </div>
 
-            <button className="w-[168px] h-11 mt-[28px] mx-[-15px] bg-lightblue hover:bg-blue text-white rounded-xl text-sm font-[500] leading-tight ">
+            <a
+              href="tel:+380730000000"
+              className="w-[168px] h-11 mt-[28px] flex items-center justify-center bg-lightblue hover:bg-blue text-white rounded-xl text-sm font-[500] leading-tight cursor-pointer"
+            >
               Rental Car
-            </button>
+            </a>
           </div>
         </div>
       )}
