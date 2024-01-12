@@ -28,6 +28,7 @@ export default {
       lightgray: "#12141780",
       lightblack: "#363535;",
       stone: "#F9F9F9",
+      black:"#000",
     },
     extend: {
       backgroundImage: {

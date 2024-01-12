@@ -33,7 +33,6 @@ export const Modal = ({id, isOpen, onClose}) => {
     if (isOpen) {
       window.addEventListener("keydown", handleEscPress);
     }
-
     return () => {
       window.removeEventListener("keydown", handleEscPress);
     };

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { allCars, getIsLoading, getPagedCars } from "../../../Redux/selector";
 import { getAllCars, getCars } from "../../../Redux/operation";
 import { Container } from "../../../ui/Container/Container";
-import {Loader} from "../../../Components/Loader/Loader"
+import { Loader } from "../../../Components/Loader/Loader";
 import { Modal } from "../../../Components/Modal/Modal";
 import { Filter } from "../../../Components/Filter/Filter";
 import { clearPagedCars } from "../../../Redux/carsSlice";
@@ -13,25 +13,26 @@ export const Catalog = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [page, setPage] = useState(1);
   const [reqCar, setReqCar] = useState(null);
-  const [filterBrand, setFilterBrand] = useState("");
+  const [filter, setFilter] = useState({});
 
   const limit = 12;
 
-    const cars = useSelector(allCars);
-    const pagedCars = useSelector(getPagedCars);
-    const isLoading = useSelector(getIsLoading)
+  const cars = useSelector(allCars);
+  const pagedCars = useSelector(getPagedCars);
+  const isLoading = useSelector(getIsLoading);
 
-    const totalPages =Math.ceil(cars.length/limit)
+  const totalPages = Math.ceil(cars.length / limit);
+  const filterNotEmpty = Object.values(filter).some((el) => el !== "");
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCars({ page, limit }));
-  }, [dispatch, page, filterBrand]);
-    
-    useEffect(() => {
-        dispatch(getAllCars());
-        dispatch(clearPagedCars())
-    },[]);
+  }, [dispatch, page, filter]);
+
+  useEffect(() => {
+    dispatch(getAllCars());
+    dispatch(clearPagedCars());
+  }, []);
 
   const handleOpenModal = (id) => {
     setIsOpenModal(true);
@@ -42,26 +43,36 @@ export const Catalog = () => {
     setIsOpenModal(false);
   };
 
-  const setBrand = (brand) => {
-      setFilterBrand(brand);
-      dispatch(clearPagedCars())
-      setPage(1)
+  const handleFilter = (filter) => {
+    setFilter(filter);
+    dispatch(clearPagedCars());
+    setPage(1);
   };
 
   const handleLoadMore = () => {
-      setPage((prev) => prev + 1);
-      
-    };
-    
-    const slicerAddress = (address, number) => address.split(", ")[number];
+    setPage((prev) => prev + 1);
+  };
+
+  const slicerAddress = (address, number) => address.split(", ")[number];
 
   return (
     cars && (
       <Container className="pb-[150px]">
-        <Filter setBrand={setBrand} />
+        <Filter setFilter={handleFilter} />
         <ul className="flex flex-wrap gap-[29px] ">
-          {(filterBrand ? cars : pagedCars)
-            .filter((car) => (filterBrand ? car.make === filterBrand : true))
+          {(filterNotEmpty ? cars : pagedCars)
+            .filter((car) => {
+              return (
+                (!filter.make || (filter.make && car.make === filter.brands)) &&
+                (!filter.mileFrom ||
+                  (filter.mileFrom && filter.mileFrom >= car.mileage)) &&
+                (!filter.mileTo ||
+                  (filter.mileTo && car.mileage <= filter.mileTo)) &&
+                (!filter.price ||
+                  (filter.price &&
+                    parseInt(car.rentalPrice?.slice(1), 10) <= filter.price))
+              );
+            })
             .map((car) => (
               <li key={car.id}>
                 <AutoCard
@@ -82,7 +93,7 @@ export const Catalog = () => {
               </li>
             ))}
         </ul>
-        {page < totalPages && !filterBrand && (
+        {page < totalPages && !filterNotEmpty && (
           <button
             onClick={handleLoadMore}
             className="mx-auto mt-[100px] text-lightblue underline manrope block hover:text-blue"
