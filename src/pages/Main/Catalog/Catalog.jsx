@@ -63,9 +63,10 @@ export const Catalog = () => {
           {(filterNotEmpty ? cars : pagedCars)
             .filter((car) => {
               return (
-                (!filter.make || (filter.make && car.make === filter.brands)) &&
+                (!filter.brands ||
+                  (filter.brands && car.make === filter.brands)) &&
                 (!filter.mileFrom ||
-                  (filter.mileFrom && filter.mileFrom >= car.mileage)) &&
+                  (filter.mileFrom && filter.mileFrom <= car.mileage)) &&
                 (!filter.mileTo ||
                   (filter.mileTo && car.mileage <= filter.mileTo)) &&
                 (!filter.price ||
