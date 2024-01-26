@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useDebugValue, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Formik, Field, Form } from "formik";
 import { brands } from "../../assets/brands";
 import { useSelector } from "react-redux";
 import { allCars } from "../../Redux/selector";
 import Choices from "choices.js";
+import { CustomSelection } from "../CustomSelection/CustomSelection";
+
 
 export const Filter = ({ setFilter }) => {
   let cars = useSelector(allCars);
@@ -55,7 +57,15 @@ export const Filter = ({ setFilter }) => {
             <label htmlFor="price" className="text-sm text-lightgray">
               Price / 1hour
             </label>
-            <Field
+            <CustomSelection
+              name={"price"}
+              items={Array.from({ length: maxPrice / 10 - 2 }, (_, el) => ({
+                value: (el + 3) * 10,
+                label: `${(el + 3) * 10}$`,
+              }))}
+              className={"rounded-[14px] w-56 h-12 pl-[18px]"}
+            />
+            {/* <Field
               as="select"
               id="price"
               name="price"
@@ -74,7 +84,7 @@ export const Filter = ({ setFilter }) => {
                     </option>
                   );
               })}
-            </Field>
+            </Field> */}
           </div>
           <div className="flex flex-col gap-[8px]">
             <label htmlFor="mile" className="text-sm text-lightgray">
@@ -95,7 +105,6 @@ export const Filter = ({ setFilter }) => {
               />
             </div>
           </div>
-
           <button
             type="submit"
             className="w-[136px] h-12 px-11 py-3.5 bg-lightblue text-white leading-tight text-sm font-semibold font-manrope hover:bg-blue rounded-xl"
