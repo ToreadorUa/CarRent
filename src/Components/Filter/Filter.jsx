@@ -56,15 +56,15 @@ export const Filter = ({ setFilter }) => {
             <label htmlFor="price" className="text-sm text-lightgray">
               Price / 1hour
             </label>
-            <CustomSelection
+            {/* <CustomSelection
               name={"price"}
               items={Array.from({ length: maxPrice / 10 - 2 }, (_, el) => ({
                 value: (el + 3) * 10,
                 label: `${(el + 3) * 10}$`,
               }))}
               className={"rounded-[14px] w-56 h-12 pl-[18px] text-"}
-            />
-            {/* <Field
+            /> */}
+            <Field
               as="select"
               id="price"
               name="price"
@@ -83,7 +83,7 @@ export const Filter = ({ setFilter }) => {
                     </option>
                   );
               })}
-            </Field> */}
+            </Field>
           </div>
           <div className="flex flex-col gap-[8px]">
             <label htmlFor="mile" className="text-sm text-lightgray">
