@@ -4,7 +4,6 @@ import { Formik, Field, Form } from "formik";
 import { brands } from "../../assets/brands";
 import { useSelector } from "react-redux";
 import { allCars } from "../../Redux/selector";
-import Choices from "choices.js";
 import { CustomSelection } from "../CustomSelection/CustomSelection";
 
 
@@ -63,7 +62,7 @@ export const Filter = ({ setFilter }) => {
                 value: (el + 3) * 10,
                 label: `${(el + 3) * 10}$`,
               }))}
-              className={"rounded-[14px] w-56 h-12 pl-[18px]"}
+              className={"rounded-[14px] w-56 h-12 pl-[18px] text-"}
             />
             {/* <Field
               as="select"
